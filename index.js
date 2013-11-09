@@ -1,10 +1,17 @@
 var express = require('express')
   , passport = require('passport')
   , util = require('util')
-  , TwitterStrategy = require('passport-twitter').Strategy;
+  , TwitterStrategy = require('passport-twitter').Strategy
+  , Sequelize = require('sequelize')
+  , fs = require('fs');
 
-var TWITTER_CONSUMER_KEY = "FZQkmB15zrXZoAcA3CfBw";
-var TWITTER_CONSUMER_SECRET = "A2Re8fixzFS8roNevX2w5wQ1xTJEtZHP8gNjGiCCM3U";
+var fs = require('fs');
+var buf = fs.readFileSync('configuration.json');
+
+var config = JSON.parse(buf.toString());
+
+var TWITTER_CONSUMER_KEY = config.twitter.TWITTER_CONSUMER_KEY;
+var TWITTER_CONSUMER_SECRET = config.twitter.TWITTER_CONSUMER_SECRET ;
 
 // Passport session setup.
 //   To support persistent login sessions, Passport needs to be able to

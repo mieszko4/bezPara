@@ -6,7 +6,7 @@
 	angular.module('bezPara', ['ngResource']);
     
     angular.module('bezPara').factory('Gift', function ($resource) {
-        return $resource('../fixtures/gift.json/:giftId', {},
+        return $resource('../api/gift/:giftId', {},
 		//return $resource('../api/gift/:giftId', {},
 			{
 				update: {method: 'PUT'}

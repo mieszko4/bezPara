@@ -12,6 +12,11 @@ var config = JSON.parse(buf.toString());
 
 console.log(config);
 
+var sequelize = new Sequelize(config.db.name, config.db.username, config.db.password, {
+  host: config.db.host
+});
+
+
 // Passport session setup.
 //   To support persistent login sessions, Passport needs to be able to
 //   serialize users into and deserialize users out of the session.  Typically,
@@ -102,6 +107,36 @@ app.get('/api/auth/logout', function(req, res){
   console.log('logged out');
   res.redirect('/');
 });
+
+// Gifts
+app.get('/api/gift', function(req, res) {
+
+  console.log(sequelize);
+  console.log(req.query.type);
+
+  var type = req.query.type;
+  var username = req.query.username;
+
+  console.log(username);
+  // Default === all
+  var query = "SELECT g.ID, t.name, u.twitter_screen_name AS username, NOW(), g.datetime_created, TIMESTAMPDIFF(SECOND, g.datetime_created, NOW()) AS time_ago  FROM gift AS g LEFT JOIN tag AS t ON t.ID = g.ID_tag LEFT JOIN user AS u ON g.ID_user = u.ID";
+
+  // TODO: Not implemented
+  if(type === 'my' && username != undefined) { 
+    query = "SELECT g.ID, t.name, u.twitter_screen_name AS username, NOW(), g.datetime_created, TIMESTAMPDIFF(SECOND, g.datetime_created, NOW()) AS time_ago  FROM gift AS g LEFT JOIN tag AS t ON t.ID = g.ID_tag LEFT JOIN user AS u ON g.ID_user = u.ID WHERE u.twitter_screen_name = '" + username + "'";
+  } else if (type === 'interested' && username != undefined) {
+    query = "SELECT g.ID, t.name, u.twitter_screen_name AS username, NOW(), g.datetime_created, TIMESTAMPDIFF(SECOND, g.datetime_created, NOW()) AS time_ago  FROM gift AS g LEFT JOIN tag AS t ON t.ID = g.ID_tag LEFT JOIN user AS u ON g.ID_user = u.ID INNER JOIN user_tag AS ut ON ut.ID_tag = t.ID AND ut.ID_user = u.ID WHERE u.twitter_screen_name = '" + username + "'";
+
+  }
+
+
+  sequelize.query(query).success(function(gifts) {
+    //console.log(gifts);
+    res.json(gifts);
+  });
+});
+
+
 
 app.listen(9068);
 

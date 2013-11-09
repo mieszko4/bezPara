@@ -135,6 +135,7 @@ app.get('/api/gift', function(req, res) {
   });
 });
 
+
 app.post('/api/gift', function(req, res) {
   console.log(req.body);
 
@@ -142,7 +143,11 @@ app.post('/api/gift', function(req, res) {
   var query = "SELECT * FROM user WHERE twitter_screen_name = '" + username + "'";
 
   sequelize.query(query).success(function(user) {
-
+	
+	if(user.length <= 0) {
+		return;
+	}
+	
     var query = "SELECT * FROM tag WHERE name = '" + req.body.name + "'";
     console.log(query);
     

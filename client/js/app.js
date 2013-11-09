@@ -15,6 +15,7 @@
     
     angular.module('bezPara').factory('BezPara', function () {
 		var BezPara = {
+            "type": 'all',
             "username": null,
             "loggedIn": false
         };
@@ -29,6 +30,7 @@
         $scope.filterGifts = function (type) {
             console.log('filtering with type', type);
             $scope.type = type;
+            BezPara.type = type;
             $scope.gifts = Gift.query({
                 'type': $scope.type,
                 'username': BezPara.username
@@ -48,10 +50,17 @@
         $scope.filterGifts($scope.type);
     });
     
-    angular.module('bezPara').controller('GiftCtrl', function ($scope, Gift, BezPara) {
+    angular.module('bezPara').controller('GiftCtrl', function ($window, $http, $scope, Gift, BezPara) {
         $scope.addGift = function () {
             if (BezPara.loggedIn) {
-                console.log('add', BezPara.username, $scope.gift);
+                if ($scope.gift) {
+                    $http.post('../api/gift?username=' + $window.encodeURIComponent(BezPara.username), angular.toJson({
+                        "name": $scope.gift
+                    })).success(function () {
+                        $scope.filterGifts($scope.type);
+                    });
+                    console.log('add', BezPara.username, $scope.gift);
+                }
             } else {
                 alert('You must log in first');
             }

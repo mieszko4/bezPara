@@ -121,7 +121,6 @@ app.get('/api/gift', function(req, res) {
   // Default === all
   var query = "SELECT g.ID, t.name, u.twitter_screen_name AS username, NOW(), g.datetime_created, TIMESTAMPDIFF(SECOND, g.datetime_created, NOW()) AS time_ago  FROM gift AS g LEFT JOIN tag AS t ON t.ID = g.ID_tag LEFT JOIN user AS u ON g.ID_user = u.ID";
 
-  // TODO: Not implemented
   if(type === 'my' && username != undefined) { 
     query = "SELECT g.ID, t.name, u.twitter_screen_name AS username, NOW(), g.datetime_created, TIMESTAMPDIFF(SECOND, g.datetime_created, NOW()) AS time_ago  FROM gift AS g LEFT JOIN tag AS t ON t.ID = g.ID_tag LEFT JOIN user AS u ON g.ID_user = u.ID WHERE u.twitter_screen_name = '" + username + "'";
   } else if (type === 'interested' && username != undefined) {
@@ -136,9 +135,67 @@ app.get('/api/gift', function(req, res) {
   });
 });
 
+app.post('/api/gift', function(req, res) {
+  console.log(req.body);
+
+  var username = req.query.username;
+  var query = "SELECT * FROM user WHERE twitter_screen_name = '" + username + "'";
+
+  sequelize.query(query).success(function(user) {
+
+    var query = "SELECT * FROM tag WHERE name = '" + req.body.name + "'";
+    console.log(query);
+    
+    sequelize.query(query).success(function(tag) {
+      if(tag.length > 0) {
+        query = "INSERT INTO gift(ID_user, ID_tag, name, datetime_created) VALUES(" + user[0].ID + "," + tag[0].ID + ", '" + req.body.name + "', NOW())";
+        console.log(query);
+        sequelize.query(query).success(function() {
+          res.json(req.body);
+        });
+      } else {
+        query = "INSERT INTO tag(name) VALUES('" + req.body.name + "')";
+
+        sequelize.query(query).success(function() {
+          var query = "SELECT * FROM tag WHERE name = '" + req.body.name + "'";
+
+ console.log(query);
 
 
-app.listen(9068);
+sequelize.query(query).success(function(tag) {
+  query = "INSERT INTO gift(ID_user, ID_tag, name, datetime_created) VALUES(" + user[0].ID + "," + tag[0].ID + ", '" + req.body.name + "', NOW())";
+        console.log(query);
+        sequelize.query(query).success(function() {
+          res.json(req.body);
+        });
+
+});
+
+   
+        });
+
+      }
+    });
+ 
+
+    query = "INSERT INTO gift(ID_user, name, datetime_created) VALUES(" + user[0].ID + ", '" + req.body.name + "', NOW())";
+    console.log(query);
+    sequelize.query(query).success(function() {
+       res.json(req.body);
+    });
+  });
+
+
+  //var query = "INSERT INTO tag(name) VALUES('" + req.body.name '");
+
+  //query = "INSERT INTO gift(ID_user, name, datetime_created) VALUES(1, '" + req.body.name + "', NOW())";
+  //sequelize.query(query).success(function() {
+   // res.json(req.body);
+  //}); 
+});
+
+console.log(config.general.port);
+app.listen(parseInt(config.general.port));
 
 
 // Simple route middleware to ensure user is authenticated.

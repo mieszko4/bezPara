@@ -5,13 +5,17 @@ var express = require('express')
   , Sequelize = require('sequelize')
   , fs = require('fs');
 
+// configuration
 var fs = require('fs');
 var buf = fs.readFileSync('configuration.json');
-
 var config = JSON.parse(buf.toString());
 
-var TWITTER_CONSUMER_KEY = config.twitter.TWITTER_CONSUMER_KEY;
-var TWITTER_CONSUMER_SECRET = config.twitter.TWITTER_CONSUMER_SECRET ;
+console.log(config);
+
+var sequelize = new Sequelize(config.db.name, config.db.username, config.db.password, {
+  host: config.db.host
+});
+
 
 // Passport session setup.
 //   To support persistent login sessions, Passport needs to be able to
@@ -33,9 +37,9 @@ passport.deserializeUser(function(obj, done) {
 //   credentials (in this case, a token, tokenSecret, and Twitter profile), and
 //   invoke a callback with a user object.
 passport.use(new TwitterStrategy({
-    consumerKey: TWITTER_CONSUMER_KEY,
-    consumerSecret: TWITTER_CONSUMER_SECRET,
-    callbackURL: "http://bezpara.listup.co/api/auth/twitter/callback"
+    consumerKey: config.twitter.TWITTER_CONSUMER_KEY,
+    consumerSecret: config.twitter.TWITTER_CONSUMER_SECRET,
+    callbackURL: config.twitter.callbackURL //"http://bezpara.listup.co/api/auth/twitter/callback"
   },
   function(token, tokenSecret, profile, done) {
     // asynchronous verification, for effect...
@@ -100,8 +104,39 @@ app.get('/api/auth/twitter/callback',
 
 app.get('/api/auth/logout', function(req, res){
   req.logout();
+  console.log('logged out');
   res.redirect('/');
 });
+
+// Gifts
+app.get('/api/gift', function(req, res) {
+
+  console.log(sequelize);
+  console.log(req.query.type);
+
+  var type = req.query.type;
+  var username = req.query.username;
+
+  console.log(username);
+  // Default === all
+  var query = "SELECT g.ID, t.name, u.twitter_screen_name AS username, NOW(), g.datetime_created, TIMESTAMPDIFF(SECOND, g.datetime_created, NOW()) AS time_ago  FROM gift AS g LEFT JOIN tag AS t ON t.ID = g.ID_tag LEFT JOIN user AS u ON g.ID_user = u.ID";
+
+  // TODO: Not implemented
+  if(type === 'my' && username != undefined) { 
+    query = "SELECT g.ID, t.name, u.twitter_screen_name AS username, NOW(), g.datetime_created, TIMESTAMPDIFF(SECOND, g.datetime_created, NOW()) AS time_ago  FROM gift AS g LEFT JOIN tag AS t ON t.ID = g.ID_tag LEFT JOIN user AS u ON g.ID_user = u.ID WHERE u.twitter_screen_name = '" + username + "'";
+  } else if (type === 'interested' && username != undefined) {
+    query = "SELECT g.ID, t.name, u.twitter_screen_name AS username, NOW(), g.datetime_created, TIMESTAMPDIFF(SECOND, g.datetime_created, NOW()) AS time_ago  FROM gift AS g LEFT JOIN tag AS t ON t.ID = g.ID_tag LEFT JOIN user AS u ON g.ID_user = u.ID INNER JOIN user_tag AS ut ON ut.ID_tag = t.ID AND ut.ID_user = u.ID WHERE u.twitter_screen_name = '" + username + "'";
+
+  }
+
+
+  sequelize.query(query).success(function(gifts) {
+    //console.log(gifts);
+    res.json(gifts);
+  });
+});
+
+
 
 app.listen(9068);
 

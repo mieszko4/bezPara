@@ -62,7 +62,7 @@
                     console.log('add', BezPara.username, $scope.gift);
                 }
             } else {
-                alert('You must log in first');
+                alert('Moraš se prvo prijaviti');
             }
         };
     });

@@ -13,5 +13,12 @@
   "author": "Mieszko4 and Miroslav",
   "license": "BSD",
   "readmeFilename": "README.md",
-  "gitHead": "bf2e23610eda57384f166f0d4ef003cfd3ab7986"
+  "gitHead": "bf2e23610eda57384f166f0d4ef003cfd3ab7986",
+  "dependencies" : { 
+    "express": ">= 0.0.0",
+    "ejs": ">= 0.0.0",
+    "passport": ">= 0.0.0",
+    "passport-twitter": ">= 0.0.0",
+    "sequelize": ">= 0.0.0"
+  }
 }

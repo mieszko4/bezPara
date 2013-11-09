@@ -28,26 +28,26 @@
     </div>
     
     <!-- Menu -->
-    <nav class="bez-para-menu">
-        <a href="#" class="btn btn-primary btn-lg">Prijavi se s Twitterom</a>
+    <nav class="bez-para-menu" ng-controller="MenuCtrl">
+        <button ng-show="!BezPara.loggedIn" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#login-popup">Prijavi se s Twitterom</button>
         <!-- TODO: implement sign in, on first sign in choose tags -->
-        <!--<a href="#" class="btn btn-primary btn-lg">Odjavi se</a>-->
+        <button ng-click="logoutMe()" ng-show="BezPara.loggedIn" class="btn btn-primary btn-lg">Odjavi se</button>
     </nav>
     <!-- /Menu -->
   
     <!-- Full Page Image Header Area -->
     <div id="top" class="header">
-      <div class="vert-text">
+      <div class="vert-text" ng-controller="GiftCtrl">
         <div class="bez-para-container">
             <h1 class="bez-para-header">Imam</h1>
             <form name="pokloni">
                 <div class="input-group input-group-lg bez-para-poklon">
-                  <input type="text" class="form-control" placeholder="Što?" name="what" />
+                  <input ng-model="gift" type="text" class="form-control" placeholder="Što?" name="what" />
                 </div>
                 <fieldset name="options">
                     <!-- TODO: add description, image -->
                 </fieldset>
-                <button class="btn btn-primary btn-lg" type="submit">Pokloni!</button>
+                <button ng-click="addGift()" class="btn btn-primary btn-lg" type="button">Pokloni!</button>
             </form>
             <!--TODO: add how many are giveted
                 <p>Već <em>100</em> stvari poklonjeno!</p>
@@ -66,15 +66,22 @@
             <h1>Lista poklona</h1>
             
             <ul class="nav nav-tabs bez-para-filter">
-                <li class="active"><a href="#">Interesantni pokloni</a></li>
-                <li><a href="#">Svi pokloni</a></li>
-                <li><a href="#">Moji pokloni</a></li> <!--TODO: show only when logged in -->
+                <li ng-show="BezPara.loggedIn" ng-class="{active: type=='interested'}">
+                    <a href="" ng-click="filterGifts('interested')">Interesantni pokloni</a>
+                </li>
+                <li ng-class="{active: type=='all'}">
+                    <a href="" ng-click="filterGifts('all')">Svi pokloni</a>
+                </li>
+                <li ng-show="BezPara.loggedIn" ng-class="{active: type=='my'}">
+                    <a href="" ng-click="filterGifts('my')">Moji pokloni</a>
+                </li>
             </ul>
             
             <!-- TODO: details form with description and picture -->
             <ul class="list-group bez-para-pokloni">
                 <li class="list-group-item" ng-repeat="gift in gifts">
-                    <span class="badge"><a href="#">kontakiraj</a></span>
+                    <span ng-show="BezPara.username != gift.username" class="badge"><a href="" ng-click="contact(gift.username)">kontakiraj</a></span>
+                    <span ng-show="BezPara.username == gift.username" class="badge"><a href="" ng-click="remove(gift.ID)">pobriši</a></span>
                     <span>{{gift.name}}</span> od <em>{{gift.username}}</em> <span>{{gift.time_ago | humanTime}}</span>
                 </li>
             </ul>
@@ -84,6 +91,26 @@
       </div>
     </div>
     <!-- /Call to Action -->
+    
+    <!-- Modal -->
+    <div class="modal fade" id="login-popup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog" ng-controller="LoginCtrl">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">Prijava</h4>
+          </div>
+          <div class="modal-body">
+            <form name="login">
+                <input ng-model="username" type="text" class="form-control" placeholder="Korisničko ime" name="username" />
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="loginMe()">Prijavi se</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 
     <!-- Bootstrap core JavaScript -->
     <!-- Placed at the end of the document so the pages load faster -->

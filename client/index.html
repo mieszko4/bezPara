@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hr" ng-app="bezPara">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -60,7 +60,7 @@
   
     <!-- Call to Action -->
     <div id="lista-poklona" class="call-to-action">
-      <div class="container">
+      <div class="container" ng-controller="GiftListCtrl">
         <div class="row">
           <div class="col-md-6 col-md-offset-3 text-center">
             <h1>Lista poklona</h1>
@@ -73,17 +73,9 @@
             
             <!-- TODO: details form with description and picture -->
             <ul class="list-group bez-para-pokloni">
-                <li class="list-group-item">
+                <li class="list-group-item" ng-repeat="gift in gifts">
                     <span class="badge"><a href="#">kontakiraj</a></span>
-                    <span>Klavir</span> od <em>@klavir_user</em> <span>prije 5 minuta</span>
-                </li>
-                <li class="list-group-item">
-                    <span class="badge"><a href="#">kontakiraj</a></span>
-                    <span>Lijeva Cipela</span> od <em>@cipela_user</em> <span>prije 1 sat</span>
-                </li>
-                <li class="list-group-item">
-                    <span class="badge"><a href="#">kontakiraj</a></span>
-                    <span>Desna Cipela</span> od <em>@cipela_user</em> <span>prije 3 dana</span>
+                    <span>{{gift.name}}</span> od <em>{{gift.username}}</em> <span>{{gift.time_ago | humanTime}}</span>
                 </li>
             </ul>
             <!-- TODO: virtual scroll -->
@@ -97,6 +89,10 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="js/jquery.js"></script>
     <script src="js/bootstrap.js"></script>
+    <script src="js/moment.js"></script>
+    <script src="js/angular.js"></script>
+    <script src="js/angular-resource.js"></script>
+    <script src="js/app.js"></script>
   </body>
 
 </html>

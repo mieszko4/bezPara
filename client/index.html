@@ -80,7 +80,7 @@
             <!-- TODO: details form with description and picture -->
             <ul class="list-group bez-para-pokloni">
                 <li class="list-group-item" ng-repeat="gift in gifts">
-                    <span ng-show="BezPara.username != gift.username" class="badge"><a href="" ng-click="contact(gift.username)">kontakiraj</a></span>
+                    <span ng-show="BezPara.username != gift.username" class="badge"><a target="_blank" href="http://twitter.com/{{gift.username | encodeURIComponent}}" ng-click="contact(gift.username)">kontakiraj</a></span>
                     <span ng-show="BezPara.username == gift.username" class="badge"><a href="" ng-click="remove(gift.ID)">pobriši</a></span>
                     <span>{{gift.name}}</span> od <em>{{gift.username}}</em> <span>{{gift.time_ago | humanTime}}</span>
                 </li>

@@ -80,6 +80,10 @@
 		};
 	});
     
+    angular.module('bezPara').filter('encodeURIComponent', function ($window) {
+		return $window.encodeURIComponent;
+	});
+    
     angular.module('bezPara').directive('a', function() {
         return {
             restrict: 'E',

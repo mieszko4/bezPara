@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="BezPara" />
+    <meta name="author" content="Mieszko4 i Miroslav" />
+
+    <title>BezPara</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="favicon.png" />
+
+    <!-- Add custom CSS here -->
+    <link href="css/bez-para.css" rel="stylesheet" />
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+  </head>
+
+  <body style="background:#000">
+    <div class="bez-para-logo">
+        <button type="button" class="btn btn-default btn-lg">
+            <a href="/"><i class="fa fa-gift"></i></a>
+        </button>
+    </div>
+    
+    <!-- Menu -->
+    <nav class="bez-para-menu">
+        <a href="#" class="btn btn-primary btn-lg">Sign in with Twitter</a>
+        <!-- TODO: implement sign in, on first sign in choose tags -->
+        <!--<a href="#" class="btn btn-primary btn-lg">Sign out</a>-->
+    </nav>
+    <!-- /Menu -->
+  
+    <!-- Full Page Image Header Area -->
+    <div id="top" class="header">
+      <div class="vert-text">
+        <div class="bez-para-container">
+            <h1>Imam</h1>
+            <form name="pokloni">
+                <div class="input-group input-group-lg bez-para-poklon">
+                  <input type="text" class="form-control" placeholder="Što?" name="what" />
+                </div>
+                <fieldset name="options">
+                    <!-- TODO: add description, image -->
+                </fieldset>
+                <button class="btn btn-primary btn-lg" type="submit">Pokloni!</button>
+            </form>
+          </div>
+        </div>
+    </div>
+    <!-- /Full Page Image Header Area -->
+  
+    <!-- Call to Action -->
+    <div class="call-to-action">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6 col-md-offset-3 text-center">
+            <h3>The buttons below are impossible to resist.</h3>
+            <a href="#" class="btn btn-lg btn-default">Click Me!</a>
+            <a href="#" class="btn btn-lg btn-primary">Look at Me!</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /Call to Action -->
+    
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6 col-md-offset-3 text-center">
+            <ul class="list-inline">
+              <!--<li><i class="fa fa-facebook fa-3x"></i></li>-->
+              <li><a target="_blank" href="http://twitter.com/bez_para"><i class="fa fa-twitter fa-3x"></i></a></li>
+              <!--<li><i class="fa fa-dribbble fa-3x"></i></li>-->
+            </ul>
+            <div class="top-scroll">
+              <a href="#top"><i class="fa fa-circle-arrow-up scroll fa-4x"></i></a>
+            </div>
+            <hr />
+            <p>Copyright &copy; BezPara 2013</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <!-- /Footer -->
+
+    <!-- Bootstrap core JavaScript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="js/jquery.js"></script>
+    <script src="js/bootstrap.js"></script>
+  </body>
+
+</html>

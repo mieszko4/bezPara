@@ -1,0 +1,17 @@
+{
+  "name": "BezPara",
+  "version": "0.1.0",
+  "description": "bezPara =======",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mieszko4/bezPara.git"
+  },
+  "author": "Mieszko4 and Miroslav",
+  "license": "BSD",
+  "readmeFilename": "README.md",
+  "gitHead": "bf2e23610eda57384f166f0d4ef003cfd3ab7986"
+}

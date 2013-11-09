@@ -26,9 +26,9 @@
     
     <!-- Menu -->
     <nav class="bez-para-menu">
-        <a href="#" class="btn btn-primary btn-lg">Sign in with Twitter</a>
+        <a href="#" class="btn btn-primary btn-lg">Prijavi se s Twitterom</a>
         <!-- TODO: implement sign in, on first sign in choose tags -->
-        <!--<a href="#" class="btn btn-primary btn-lg">Sign out</a>-->
+        <!--<a href="#" class="btn btn-primary btn-lg">Odjavi se</a>-->
     </nav>
     <!-- /Menu -->
   
@@ -36,7 +36,7 @@
     <div id="top" class="header">
       <div class="vert-text">
         <div class="bez-para-container">
-            <h1>Imam</h1>
+            <h1 class="bez-para-header">Imam</h1>
             <form name="pokloni">
                 <div class="input-group input-group-lg bez-para-poklon">
                   <input type="text" class="form-control" placeholder="Što?" name="what" />
@@ -56,35 +56,35 @@
       <div class="container">
         <div class="row">
           <div class="col-md-6 col-md-offset-3 text-center">
-            <h3>The buttons below are impossible to resist.</h3>
-            <a href="#" class="btn btn-lg btn-default">Click Me!</a>
-            <a href="#" class="btn btn-lg btn-primary">Look at Me!</a>
+            <h1>Lista poklona</h1>
+            
+            <ul class="nav nav-tabs bez-para-filter">
+                <li class="active"><a href="#">Interesantni pokloni</a></li>
+                <li><a href="#">Svi pokloni</a></li>
+                <li><a href="#">Moji pokloni</a></li> <!--TODO: show only when logged in -->
+            </ul>
+            
+            <!-- TODO: details form with description and picture -->
+            <ul class="list-group bez-para-pokloni">
+                <li class="list-group-item">
+                    <span class="badge"><a href="#">kontakiraj</a></span>
+                    <span>Klavir</span> od <em>@klavir_user</em> <span>prije 5 minuta</span>
+                </li>
+                <li class="list-group-item">
+                    <span class="badge"><a href="#">kontakiraj</a></span>
+                    <span>Lijeva Cipela</span> od <em>@cipela_user</em> <span>prije 1 sat</span>
+                </li>
+                <li class="list-group-item">
+                    <span class="badge"><a href="#">kontakiraj</a></span>
+                    <span>Desna Cipela</span> od <em>@cipela_user</em> <span>prije 3 dana</span>
+                </li>
+            </ul>
+            <!-- TODO: virtual scroll -->
           </div>
         </div>
       </div>
     </div>
     <!-- /Call to Action -->
-    
-    <!-- Footer -->
-    <footer>
-      <div class="container">
-        <div class="row">
-          <div class="col-md-6 col-md-offset-3 text-center">
-            <ul class="list-inline">
-              <!--<li><i class="fa fa-facebook fa-3x"></i></li>-->
-              <li><a target="_blank" href="http://twitter.com/bez_para"><i class="fa fa-twitter fa-3x"></i></a></li>
-              <!--<li><i class="fa fa-dribbble fa-3x"></i></li>-->
-            </ul>
-            <div class="top-scroll">
-              <a href="#top"><i class="fa fa-circle-arrow-up scroll fa-4x"></i></a>
-            </div>
-            <hr />
-            <p>Copyright &copy; BezPara 2013</p>
-          </div>
-        </div>
-      </div>
-    </footer>
-    <!-- /Footer -->
 
     <!-- Bootstrap core JavaScript -->
     <!-- Placed at the end of the document so the pages load faster -->

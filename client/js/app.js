@@ -22,7 +22,7 @@
 		return BezPara;
 	});
     
-    angular.module('bezPara').controller('GiftListCtrl', function ($scope, Gift, BezPara) {
+    angular.module('bezPara').controller('GiftListCtrl', function ($http, $scope, Gift, BezPara, $window) {
         $scope.BezPara = BezPara;
         $scope.type = BezPara.loggedIn ? 'interested' : 'all'; //default
         
@@ -35,8 +35,10 @@
             });
         };
         
-        $scope.remove = function (giftId) {
-            console.log('remove', giftId);
+        $scope.remove = function (gift) {
+            $http.post('../api/gift/' + gift.ID + '/disable?username=' + $window.encodeURIComponent(BezPara.username), angular.toJson({})).success(function () {
+                $scope.filterGifts($scope.type);
+            });
         };
         
         $scope.contact = function (username) {

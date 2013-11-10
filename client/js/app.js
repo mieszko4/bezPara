@@ -6,7 +6,7 @@
 	angular.module('bezPara', ['ngResource']);
     
     angular.module('bezPara').factory('Gift', function ($resource) {
-        return $resource('../api/gift/:giftId', {},
+        return $resource('../fixtures/gift.json', {},
 		//return $resource('../api/gift/:giftId', {},
 			{
 				update: {method: 'PUT'}
@@ -23,14 +23,13 @@
 		return BezPara;
 	});
     
-    angular.module('bezPara').controller('GiftListCtrl', function ($http, $scope, Gift, BezPara, $window) {
+    angular.module('bezPara').controller('GiftListCtrl', function ($rootScope, $http, $scope, Gift, BezPara, $window) {
+        var type = BezPara.loggedIn ? 'interested' : 'all'; //default
         $scope.BezPara = BezPara;
-        $scope.type = BezPara.loggedIn ? 'interested' : 'all'; //default
         
         $scope.filterGifts = function (type) {
             console.log('filtering with type', type);
             $scope.type = type;
-            BezPara.type = type;
             $scope.gifts = Gift.query({
                 'type': $scope.type,
                 'username': BezPara.username
@@ -47,7 +46,15 @@
             console.log('contact', username);
         };
         
-        $scope.filterGifts($scope.type);
+        $rootScope.$on('login', function () {
+            $scope.filterGifts('interested');
+        });
+        
+        $rootScope.$on('logout', function () {
+            $scope.filterGifts('all');
+        });
+        
+        $scope.filterGifts(type);
     });
     
     angular.module('bezPara').controller('GiftCtrl', function ($window, $http, $scope, Gift, BezPara) {
@@ -68,21 +75,23 @@
         };
     });
     
-    angular.module('bezPara').controller('LoginCtrl', function ($scope, Gift, BezPara) {
+    angular.module('bezPara').controller('LoginCtrl', function ($rootScope, $scope, Gift, BezPara) {
         $scope.loginMe = function () {
             //TODO: actual login
             BezPara.username = $scope.username;
             BezPara.loggedIn = true;
+            $rootScope.$emit('login');
         };
     });
     
-    angular.module('bezPara').controller('MenuCtrl', function ($scope, BezPara) {
+    angular.module('bezPara').controller('MenuCtrl', function ($rootScope, $scope, BezPara) {
         $scope.BezPara = BezPara;
         
         $scope.logoutMe = function () {
             //TODO: actual logout
             BezPara.username = null;
             BezPara.loggedIn = false;
+            $rootScope.$emit('logout');
         };
     });
     
@@ -95,20 +104,5 @@
     angular.module('bezPara').filter('encodeURIComponent', function ($window) {
 		return $window.encodeURIComponent;
 	});
-    
-    angular.module('bezPara').directive('a', function() {
-        return {
-            restrict: 'E',
-            link: function(scope, elem, attrs) {
-                if(attrs.ngClick || attrs.href === '' || attrs.href === '#'){
-                    elem.on('click', function(e){
-                        //e.preventDefault();
-                        //e.stopPropagation();
-                        //return false;
-                    });
-                }
-            }
-       };
-    });
     
 }(angular));

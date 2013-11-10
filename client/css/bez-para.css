@@ -129,3 +129,7 @@ i.scroll:hover {
 .bez-para-more {
     margin-top: 100px;
 }
+
+#lista-poklona {
+    min-height: 600px;
+}

@@ -1,6 +1,6 @@
-(function (angular) {
+(function (angular, $) {
 	"use strict";
-	/*global angular, console*/
+	/*global angular, console, jQuery*/
 
     // Declare app level module which depends on filters, and services
 	angular.module('bezPara', ['ngResource']);
@@ -105,4 +105,19 @@
 		return $window.encodeURIComponent;
 	});
 
-}(angular));
+    angular.module('bezPara').directive('scrollOnClick', function () {
+        return {
+            restrict: 'A',
+            link: function (scope, $elm, attrs) {
+                var idToScroll = attrs.href;
+                $elm.on('click', function () {
+                    var $target = (idToScroll) ? $(idToScroll) : $elm;
+                    $("body").animate({
+                        scrollTop: $target.offset().top
+                    }, "slow");
+                });
+            }
+        };
+    });
+
+}(angular, jQuery));

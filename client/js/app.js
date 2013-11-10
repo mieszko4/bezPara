@@ -65,8 +65,8 @@
                     })).success(function () {
                         $scope.gift = null;
                         $scope.filterGifts($scope.type);
+                        $('#show-more-anchor').trigger('click');
                     });
-                    console.log('add', BezPara.username, $scope.gift);
                 }
             } else {
                 $window.alert('Moraš se prvo prijaviti');

@@ -16,7 +16,7 @@ var sequelize = new Sequelize(config.db.name, config.db.username, config.db.pass
   host: config.db.host
 });
 
-
+/*
 // Passport session setup.
 //   To support persistent login sessions, Passport needs to be able to
 //   serialize users into and deserialize users out of the session.  Typically,
@@ -53,7 +53,7 @@ passport.use(new TwitterStrategy({
     });
   }
 ));
-
+*/
 var app = express();
 
 // configure Express
@@ -65,8 +65,12 @@ app.configure(function() {
   app.use(express.session({ secret: 'keyboard cat' }));
   // Initialize Passport!  Also use passport.session() middleware, to support
   // persistent login sessions (recommended).
+  
+  /*
   app.use(passport.initialize());
   app.use(passport.session());
+  */
+  
   app.use(app.router);
 });
 

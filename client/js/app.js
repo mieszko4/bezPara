@@ -63,8 +63,6 @@
                     $http.post('../api/gift?username=' + $window.encodeURIComponent(BezPara.username), angular.toJson({
                         "name": $scope.gift
                     })).success(function () {
-                        $scope.gift = null;
-                        $scope.filterGifts($scope.type);
                         $('#show-more-anchor').trigger('click');
                     });
                 }

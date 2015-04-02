@@ -118,7 +118,7 @@ app.post('/api/gift/:id/disable', function(req, res) {
 
   var query = "UPDATE gift SET enabled = 0 WHERE ID = " + req.params.id;
 
-  sequelize.query(query).success(function() {
+  sequelize.query(query).then(function() {
 	  res.json({});
 	});
 });
@@ -144,8 +144,8 @@ app.get('/api/gift', function(req, res) {
   }
 
 
-  sequelize.query(query).success(function(gifts) {
-    //console.log(gifts);
+  sequelize.query(query, { type: sequelize.QueryTypes.SELECT }).then(function(gifts) {
+    console.log(gifts.length);
     res.json(gifts);
   });
 });
@@ -158,11 +158,11 @@ app.post('/api/gift', function(req, res) {
   
   var query = "INSERT IGNORE INTO user(twitter_screen_name) VALUES('" + username + "')";
   
-  sequelize.query(query).success(function() {
+  sequelize.query(query).then(function() {
 	
 	var query = "SELECT * FROM user WHERE twitter_screen_name = '" + username + "'";
 
-	  sequelize.query(query).success(function(user) {
+	  sequelize.query(query, { type: sequelize.QueryTypes.SELECT }).then(function(user) {
 		
 		
 		
@@ -174,26 +174,26 @@ app.post('/api/gift', function(req, res) {
 		var query = "SELECT * FROM tag WHERE name = '" + req.body.name + "'";
 		console.log(query);
 		
-		sequelize.query(query).success(function(tag) {
+		sequelize.query(query, { type: sequelize.QueryTypes.SELECT }).then(function(tag) {
 		  if(tag.length > 0) {
 			query = "INSERT INTO gift(ID_user, ID_tag, name, datetime_created) VALUES(" + user[0].ID + "," + tag[0].ID + ", '" + req.body.name + "', NOW())";
 			console.log(query);
-			sequelize.query(query).success(function() {
+			sequelize.query(query).then(function() {
 			  res.json(req.body);
 			});
 		  } else {
 			query = "INSERT INTO tag(name) VALUES('" + req.body.name + "')";
 
-			sequelize.query(query).success(function() {
+			sequelize.query(query).then(function() {
 			  var query = "SELECT * FROM tag WHERE name = '" + req.body.name + "'";
 
 			  console.log(query);
 
 
-				sequelize.query(query).success(function(tag) {
+				sequelize.query(query,{ type: sequelize.QueryTypes.SELECT }).then(function(tag) {
 				  query = "INSERT INTO gift(ID_user, ID_tag, name, datetime_created) VALUES(" + user[0].ID + "," + tag[0].ID + ", '" + req.body.name + "', NOW())";
 						console.log(query);
-						sequelize.query(query).success(function() {
+						sequelize.query(query).then(function() {
 						  res.json(req.body);
 						});
 
@@ -208,7 +208,7 @@ app.post('/api/gift', function(req, res) {
 
 		query = "INSERT INTO gift(ID_user, name, datetime_created) VALUES(" + user[0].ID + ", '" + req.body.name + "', NOW())";
 		console.log(query);
-		sequelize.query(query).success(function() {
+		sequelize.query(query).then(function() {
 		   res.json(req.body);
 		});
 	  });

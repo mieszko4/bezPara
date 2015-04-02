@@ -1,4 +1,9 @@
 var express = require('express')
+  , logger = require('express-logger')
+  , cookieParser = require('cookie-parser')
+  , bodyParser = require('body-parser')
+  , methodOverride = require('express-method-override')
+  , session = require('express-session')
   , passport = require('passport')
   , util = require('util')
   , TwitterStrategy = require('passport-twitter').Strategy
@@ -55,24 +60,20 @@ passport.use(new TwitterStrategy({
 ));
 */
 var app = express();
-
 // configure Express
-app.configure(function() {
-  app.use(express.logger());
-  app.use(express.cookieParser());
-  app.use(express.bodyParser());
-  app.use(express.methodOverride());
-  app.use(express.session({ secret: 'keyboard cat' }));
-  // Initialize Passport!  Also use passport.session() middleware, to support
-  // persistent login sessions (recommended).
+app.use(logger({path: 'output.log'}));
+app.use(cookieParser());
+app.use(bodyParser());
+app.use(methodOverride());
+app.use(session({ secret: 'keyboard cat' }));
+// Initialize Passport!  Also use passport.session() middleware, to support
+// persistent login sessions (recommended).
+
+/*
+app.use(passport.initialize());
+app.use(passport.session());
+*/
   
-  /*
-  app.use(passport.initialize());
-  app.use(passport.session());
-  */
-  
-  app.use(app.router);
-});
 
 app.get('/account', ensureAuthenticated, function(req, res){
   res.render('account', { user: req.user });

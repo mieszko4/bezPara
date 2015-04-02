@@ -1,0 +1,2 @@
+*/1 * * * * milosz /home/milosz/projects/bezPara/index.sh > /dev/null
+

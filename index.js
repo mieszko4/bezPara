@@ -12,7 +12,7 @@ var express = require('express')
 
 // configuration
 var fs = require('fs');
-var buf = fs.readFileSync('configuration.json');
+var buf = fs.readFileSync('/home/milosz/projects/bezPara/configuration.json');
 var config = JSON.parse(buf.toString());
 
 console.log(config);

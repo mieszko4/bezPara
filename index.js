@@ -44,7 +44,7 @@ passport.deserializeUser(function(obj, done) {
 passport.use(new TwitterStrategy({
     consumerKey: config.twitter.TWITTER_CONSUMER_KEY,
     consumerSecret: config.twitter.TWITTER_CONSUMER_SECRET,
-    callbackURL: config.twitter.callbackURL //"http://bezpara.listup.co/api/auth/twitter/callback"
+    callbackURL: config.twitter.callbackURL //"http://bezpara.listup.audio/api/auth/twitter/callback"
   },
   function(token, tokenSecret, profile, done) {
     // asynchronous verification, for effect...
